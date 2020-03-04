@@ -26,24 +26,23 @@ toc
 eta_ts(:,1) = Time(1,:);
 eta_ts(:,2) = etaAllGeometry(1,:);
 
-% Finds the number of data-set in the excel-file
+% Find the number of data-set in the excel-file
 points = size(eta_ts(:,1));
 
-% We go through the time series to find the downcrossings
-% Therefore we set-up a for-loop 
+% Go through the time series to find downcrossings
 kk=0;
 for ii=1+1:points
-    % Test if our water level no. ii is negative, while the previous (ii-1) was possitive.
+    % Test if water level no. ii is negative, while the previous (ii-1) was possitive.
     % If the if-statement below is true a down-crossing point is found
     if (eta_ts(ii,2)<0 && eta_ts(ii-1,2) >0)  
-       kk=kk+1;        % kk is the number of down-crossings. As we have found another down-crossing we add 1 to kk
+       kk=kk+1;        % kk is the number of down-crossings. As another down-crossing is found add 1 to kk
        zero_c_n(kk) = ii; % variable used to remember at which data-set down-crossings are found.
        % linear interpolation finds down-crossing in next three lines
        w1 = (0-eta_ts(ii,2))/(eta_ts(ii-1,2)-eta_ts(ii,2));
        w2 = 1-w1;
        time(kk)     = w2*(eta_ts(ii,1)-eta_ts(ii-1,1)) +eta_ts(ii-1,1);
        % The level is set equal to 0. 
-       zc_z(kk) = 0.0;
+       zc_z(kk) = 0;
     end
 end
 %  Set kmax = kk, to save the maximum number of down-crossings
